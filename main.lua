@@ -16,6 +16,41 @@ SMODS.Atlas {
 }
 
 local jokers = {
+    impactjoker ={
+        name = "Heavy Impact!",
+        text = {
+            "{C:mult}X4{} Mult",
+            "if played hand ",
+            "contains a single ",
+            "{C:attention}stone{} card",
+        },
+        rarity = 3,
+        cost = 7,
+        bluepront_compat = true,
+        eternal_compat = true,
+        unlocked = true,
+        discovered = true,
+        atlas = nil,
+        soul_pos = nil,
+        
+        tooltip = function(card, info_queue)
+            info_queue[#info_queue+1] = G.P_CENTERS.m_stone
+        end,
+        calculate = function(self, context, card)
+            if context.before then
+                if #G.play.cards == 1 then
+                    for _,otherCard in ipairs(G.play.cards) do
+                        if SMODS.has_enhancement(otherCard, "m_stone") then
+                            return {
+                                x_mult = 4
+                            }
+                        end
+                    end
+                    
+                end
+            end
+        end
+    },
     lenticularjoker ={
         name = "Lenticular",
         text = {
@@ -24,9 +59,9 @@ local jokers = {
             "{S:0.8}played{}",
             "{C:inactive}(Currently #1#){}",
         },
-        rarity = 2,
-        cost = 5,
-        bluepront_compat = true,
+        rarity = 3,
+        cost = 7,
+        bluepront_compat = false,
         eternal_compat = true,
         unlocked = true,
         discovered = true,
